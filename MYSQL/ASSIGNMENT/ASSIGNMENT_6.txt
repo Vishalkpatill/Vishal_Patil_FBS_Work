@@ -1,0 +1,130 @@
+Q1) Q1) Write an SQL query to create a view named Book_List that displays the following columns
+from Books table:
+Book_No, Book_Name, Author_Name, Cost, Category.
+
+mysql> create view Book_List as
+    -> select book_no,book_name,author_name,cost,category
+    -> from book;
+
+Q2) Write an SQL query to display all records from the view Book_List.
+
+mysql> select * from book_list;
+
+
+Q3) Write an SQL query to create a view named Issued_Books that displays details of all books
+that are currently issued
+(books whose Return_Date is NULL).
+Output columns should include:
+Lib_Issue_Id, Book_No, Member_Id, Issue_Date.
+
+mysql> create view Issued_Books as
+    -> select lib_issue_id,book_no,member_id,issue_date
+    -> from issue
+    -> where return_date is null;
+
+
+Q4) Write an SQL query to display all records from the view Issued_Books.
+
+mysql> select * from issued_books;
++--------------+---------+-----------+------------+
+| lib_issue_id | book_no | member_id | issue_date |
++--------------+---------+-----------+------------+
+|         7005 |     109 |         5 | 2025-03-05 |
++--------------+---------+-----------+------------+
+
+
+Q5) Write an SQL query to create a view named Member_Penalty that displays Member_Id,
+Member_Name, Penalty_Amount
+for members whose Penalty_Amount is greater than 0.
+
+mysql> create view Member_Penalty as
+    -> select member_id,member_name,penalty_amount
+    -> from member
+    -> where penalty_amount > 0;
+
+Q6) Write an SQL query to display all records from the view Member_Penalty.
+
+mysql> select * from Member_penalty;
++-----------+----------------+----------------+
+| member_id | member_name    | penalty_amount |
++-----------+----------------+----------------+
+|         1 | Richa_Sharma   |          50.00 |
+|         2 | Garima_Sen     |         100.00 |
+|         4 | Neha_Joshi     |          25.00 |
+|         6 | Sneha_Kulkarni |         100.00 |
++-----------+----------------+----------------+
+
+
+Q7) Write an SQL query to update the Penalty_Amount of a member using the Member_Penalty
+view.
+
+mysql> update member_penalty
+    -> set penalty_amount = 150
+    -> where member_id in (1,2,4,6);
+
+Q8) Write an SQL query to create a view named Book_Issue_Details that displays:
+Book_Name, Member_Name, Issue_Date, Return_Date
+by joining Books, Member, and Issue tables.
+
+
+mysql> create view Book_issue_Details as
+    -> select b.book_name,m.member_name,i.issue_date,i.return_date from
+    -> member as m inner join issue as i
+    -> on m.member_id = i.member_id
+    -> inner join book as b
+    -> on i.book_no = b.book_no;
+Query OK, 0 rows affected (0.04 sec)
+
+Q9) Write an SQL query to display Book_Name, Member_Name, Issue_Date from the view
+Book_Issue_Details.
+
+
+mysql> select * from book_issue_details;
++---------------------+--------------+------------+-------------+
+| book_name           | member_name  | issue_date | return_date |
++---------------------+--------------+------------+-------------+
+| Let us C            | Richa_Sharma | 2025-01-10 | 2025-01-22  |
+| Mastering SQL       | Garima_Sen   | 2025-01-15 | 2025-01-29  |
+| National Geographic | Amit_Patel   | 2025-02-01 | 2025-12-31  |
+| Head First Java     | Neha_Joshi   | 2025-02-10 | 2025-02-25  |
+| Computer Networks   | Rahul_Verma  | 2025-03-05 | NULL        |
+| Let us C            | Amit_Patel   | 2025-04-18 | 2025-04-20  |
++---------------------+--------------+------------+-------------+
+
+Q10) Write an SQL query to drop the view Issued_Books.
+
+mysql> drop view issued_books;
+
+Q11) Write an SQL query to drop the view Member_Penalty.
+
+mysql> drop view member_penalty;
+
+Q12) Write an SQL query to drop the view Book_Issue_Details.
+
+mysql> drop view book_issue_details;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
